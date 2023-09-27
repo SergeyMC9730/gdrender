@@ -7,14 +7,21 @@
 
 #include <cpr/cpr.h>
 #include <SFML/Audio.hpp>
+#include "defines.h"
+#if IMGUI
 #include "imgui.h"
+#endif
 
 #include "SelectLevelLayer.h"
 
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
 #include <Windows.h>
 #include <ShlObj.h>
+#endif
 
 GameLayer* GameLayer::instance;
+
+GameLayer::GameLayer() : GameLayerPreload(), Layer(), framerate(font, "") {}
 
 std::shared_ptr<GameLayer> GameLayer::create(int levelID)
 {
@@ -28,12 +35,12 @@ std::shared_ptr<GameLayer> GameLayer::create(int levelID)
 
 bool GameLayer::init(int levelID)
 {
-    camera = sf::View(sf::FloatRect(-800.f, -950.f, 1920, 1080));
+    camera = sf::View(sf::FloatRect({-800.f, -950.f}, {1920, 1080}));
     //camera.zoom(0.3f);
 
     instance = this;
 
-    font.loadFromFile("arial.ttf");
+    
     framerate.setFont(font);
     framerate.setCharacterSize(24);
 
@@ -65,6 +72,7 @@ bool GameLayer::init(int levelID)
 
     std::stringstream ss;
 
+    #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
     PWSTR localAppDataPath;
     if (SUCCEEDED(SHGetKnownFolderPath(FOLDERID_LocalAppData, 0, NULL, &localAppDataPath))) {
         
@@ -78,6 +86,7 @@ bool GameLayer::init(int levelID)
         ss << ".mp3";
         audioEngine->loadAudio(ss.str().c_str());
     }
+    #endif
 
     ss.str("");
     ss.clear();
@@ -85,12 +94,14 @@ bool GameLayer::init(int levelID)
     std::string bgTex = ss.str();
 
     backgroundTexture = std::shared_ptr<sf::Texture>(new sf::Texture);
-    backgroundTexture->loadFromFile(bgTex);
+    auto res = backgroundTexture->loadFromFile(bgTex);
 
-    backgroundSprite = std::shared_ptr<sf::Sprite>(new sf::Sprite);
-    backgroundSprite->setTexture(*backgroundTexture);
-    backgroundSprite->setScale(0.5f * Application::zoomModifier, 0.5f * Application::zoomModifier);
-    backgroundSprite->setOrigin(backgroundSprite->getTextureRect().width / 2.f, backgroundSprite->getTextureRect().height / 2.f);
+    (void)res;
+
+    backgroundSprite = std::shared_ptr<sf::Sprite>(new sf::Sprite(*backgroundTexture));
+    // backgroundSprite->setTexture(*backgroundTexture);
+    backgroundSprite->setScale({0.5f * Application::zoomModifier, 0.5f * Application::zoomModifier});
+    backgroundSprite->setOrigin({backgroundSprite->getTextureRect().width / 2.f, backgroundSprite->getTextureRect().height / 2.f});
 
     updateLevelColors();
 
@@ -814,6 +825,7 @@ void GameLayer::drawForObject(GameObject* object, int index)
     std::shared_ptr<Sprite> sel = nullptr;
     std::stringstream nodeName;
     nodeName << "GameObject (" << object->objectID << ") " << index;
+    #if IMGUI
     if (ImGui::TreeNode(nodeName.str().c_str()))
     {
 
@@ -832,12 +844,14 @@ void GameLayer::drawForObject(GameObject* object, int index)
 
     if (ImGui::IsItemClicked())
         selected = object;
+    #endif
 }
 
 void GameLayer::drawForSprite(Sprite* sprite, int index)
 {
     std::stringstream nodeName;
     nodeName << "Sprite " << index;
+    #if IMGUI
     if (ImGui::TreeNode(nodeName.str().c_str()))
     {
         ImGui::TreePop();
@@ -845,10 +859,12 @@ void GameLayer::drawForSprite(Sprite* sprite, int index)
 
     if (ImGui::IsItemClicked())
         selected = sprite;
+    #endif
 }
 
 void GameLayer::drawInspector()
 {
+    #if IMGUI
     std::stringstream text;
     text << "Position##" << (int)selected;
     float position[2] = { selected->getPosition().x, selected->getPosition().y };
@@ -929,10 +945,12 @@ void GameLayer::drawInspector()
 
     text << "Texture Size: " << selected->texDef->textureRect.width << " " << selected->texDef->textureRect.height << "##" << (int)selected;
     ImGui::Text(text.str().c_str());
+    #endif
 }
 
 void GameLayer::drawImGui()
 {
+    #if IMGUI
     const auto avail = ImGui::GetWindowWidth();
     ImGui::Begin("Scene Inspector");
 
@@ -1005,6 +1023,7 @@ void GameLayer::drawImGui()
     ImGui::EndChild();
 
     ImGui::End();
+    #endif
 }
 
 void GameLayer::updateSpeed(int speed)

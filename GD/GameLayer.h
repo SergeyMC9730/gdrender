@@ -13,12 +13,15 @@
 #include "SpawnAction.h"
 #include "Group.h"
 #include "AudioEngine.h"
+#include "GameLayerPreload.h"
 
 #include <chrono>
 
-class GameLayer : public Layer
+class GameLayer : public GameLayerPreload, public Layer
 {
 private:
+	GameLayer();
+
 	sf::View camera;
 	std::chrono::time_point<std::chrono::high_resolution_clock> previous_frame, last_update;
 
@@ -76,7 +79,7 @@ public:
 	std::shared_ptr<Group> groups[1013];
 
 	sf::Text framerate;
-	sf::Font font;
+	
 
 	Sprite* selected = nullptr;
 

@@ -39,10 +39,10 @@ void CopyColorAction::step(float dt)
 void CopyColorAction::update(float time)
 {
 	sf::Color to = HSV::combine(copyColor->getColor(), hsvModifier);
-	sf::Uint8 r = static_cast<sf::Uint8>(to.r - (float)(to.r - from.r) * (1 - time));
-	sf::Uint8 g = static_cast<sf::Uint8>(to.g - (float)(to.g - from.g) * (1 - time));
-	sf::Uint8 b = static_cast<sf::Uint8>(to.b - (float)(to.b - from.b) * (1 - time));
-	sf::Uint8 a = static_cast<sf::Uint8>(to.a - (float)(to.a - from.a) * (1 - time));
+	uint8_t r = static_cast<uint8_t>(to.r - (float)(to.r - from.r) * (1 - time));
+	uint8_t g = static_cast<uint8_t>(to.g - (float)(to.g - from.g) * (1 - time));
+	uint8_t b = static_cast<uint8_t>(to.b - (float)(to.b - from.b) * (1 - time));
+	uint8_t a = static_cast<uint8_t>(to.a - (float)(to.a - from.a) * (1 - time));
 	targetChannel->setColor({ r, g, b, a });
 
 	targetChannel->setDirtyRecusively();

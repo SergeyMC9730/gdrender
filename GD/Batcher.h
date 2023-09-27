@@ -4,6 +4,8 @@
 
 #include <iostream>
 
+#include <map>
+
 class Batcher : public sf::Drawable, public sf::Transformable
 {
 private:
@@ -16,8 +18,8 @@ private:
     sf::BlendMode blendMode;
 public:
     std::vector<sf::Vertex> vertices;
-private:
-    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+protected:
+    void draw(sf::RenderTarget& target, const sf::RenderStates& states) const;
 public:
     void addSprite(Sprite* sp);
 

@@ -19,7 +19,7 @@ private:
 public:
 	sf::Vertex vertices[4];
     sf::Vector2f originalPositions[4];
-    sf::Uint8 opacity = 255;
+    uint8_t opacity = 255;
 
     sf::Vector2f anchor = { 0, 0 }, half = { 0, 0 };
 
@@ -48,8 +48,8 @@ public:
     void sendVertices();
     void setColor(sf::Color color);
     void setColorWithoutSend(sf::Color color);
-    void setOpacity(sf::Uint8 opacity);
-    void setOpacityWithoutSend(sf::Uint8 opacity);
+    void setOpacity(uint8_t opacity);
+    void setOpacityWithoutSend(uint8_t opacity);
 
     void updateVertexPosition(int index, sf::Transform&tr);
     void sendVertex(int index);

@@ -1,11 +1,12 @@
 #include "Application.h"
 #include "SelectLevelLayer.h"
 
-#include "imgui-SFML.h"
-#include "imgui.h"
+#include "defines.h"
 
-#define MULTITHREADING 0
-#define IMGUI 1
+#if IMGUI
+#include <imgui-SFML.h>
+#include <imgui.h>
+#endif
 
 Application* Application::instance;
 const float Application::zoomModifier = 3.f;
@@ -15,10 +16,13 @@ void Application::start()
     instance = this;
 
     window = new sf::RenderWindow(sf::VideoMode::getDesktopMode(), "GD", sf::Style::Fullscreen);
-    renderTexture.create(1920, 1080);
+    auto res1 = renderTexture.create({1920, 1080});
     window->setFramerateLimit(50000);
-    window->setVerticalSyncEnabled(false);
-    window->setActive(!MULTITHREADING);
+    window->setVerticalSyncEnabled(true);
+    auto res2 = window->setActive(!MULTITHREADING);
+
+    (void)res1;
+    (void)res2;
 
 #if IMGUI == 1
     ImGui::SFML::Init(*window);
@@ -51,6 +55,8 @@ void Application::start()
 
     onQuit();
 }
+
+// bool keyPressedMap[sf::Keyboard::Key::KeyCount] = {};
 
 void Application::update()
 {
@@ -117,7 +123,7 @@ void Application::draw()
     sf::Sprite sprite(renderTexture.getTexture());
     float scaleFactor = 1.f;
     scaleFactor *= (float)window->getSize().x / (float)renderTexture.getSize().x;
-    sprite.setScale(scaleFactor, scaleFactor);
+    sprite.setScale({scaleFactor, scaleFactor});
     window->draw(sprite);
 
 #if IMGUI == 1

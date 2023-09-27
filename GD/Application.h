@@ -2,6 +2,8 @@
 
 #include "Layer.h"
 
+#include <map>
+
 class Application
 {
 private:

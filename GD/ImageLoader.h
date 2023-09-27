@@ -2,6 +2,8 @@
 
 #include <SFML/Graphics.hpp>
 
+#include <map>
+
 struct TextureDefinition
 {
 public:

@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include <memory>
+
 class ActionInterval
 {
 protected:

@@ -6,6 +6,8 @@
 #include "LongData.h"
 #include "EffectGameObject.h"
 
+#include <cmath>
+
 nlohmann::json GameObject::objJson;
 
 void GameObject::setupCustomObjects(nlohmann::json& objectJson, std::shared_ptr<GameObject> parent)
@@ -20,7 +22,7 @@ void GameObject::setupCustomObjects(nlohmann::json& objectJson, std::shared_ptr<
 
 		spr->setScale({ sprite["scale_x"].get<float>() * flip.x, sprite["scale_y"].get<float>() * flip.y });
 		spr->setPosition({ sprite["x"].get<float>(), sprite["y"].get<float>() });
-		spr->setRotation(sprite["rot"].get<float>());
+		spr->setRotation(sf::degrees(sprite["rot"].get<float>()));
 
 		float width = spr->texDef->textureRect.width / 4.f, height = spr->texDef->textureRect.height / 4.f;
 
@@ -121,12 +123,12 @@ std::shared_ptr<GameObject> GameObject::createFromString(std::string_view str)
 		switch (key)
 		{
 		case 2:
-			ptr->setPosition(Common::stof(properties[i + 1]), ptr->getPosition().y);
+			ptr->setPosition({Common::stof(properties[i + 1]), ptr->getPosition().y});
 			ptr->section = Common::sectionForPos(ptr->getPosition().x);
 			ptr->section = ptr->section - 1 < 0 ? 0 : ptr->section - 1;
 			break;
 		case 3:
-			ptr->setPosition(ptr->getPosition().x, Common::stof(properties[i + 1]));
+			ptr->setPosition({ptr->getPosition().x, Common::stof(properties[i + 1])});
 			break;
 		case 4:
 			ptr->setScale({ -1.f * Common::stof(properties[i + 1]) , 1.f });
@@ -135,7 +137,7 @@ std::shared_ptr<GameObject> GameObject::createFromString(std::string_view str)
 			ptr->setScale({ ptr->getScale().x , -1.f * Common::stof(properties[i + 1]) });
 			break;
 		case 6:
-			ptr->setRotation(-Common::stof(properties[i + 1]));
+			ptr->setRotation(sf::degrees(-Common::stof(properties[i + 1])));
 			break;
 		case 7:
 			effectPtr->triggerColor.r = Common::stoi(properties[i + 1]);
@@ -326,7 +328,7 @@ std::shared_ptr<GameObject> GameObject::createFromString(std::string_view str)
 	ptr->setupCustomObjects(objectEntry, ptr);
 
 	ptr->startPosition = ptr->getPosition();
-	ptr->startRotation = ptr->getRotation();
+	ptr->startRotation = ptr->getRotation().asDegrees();
 
 	return ptr;
 }
@@ -374,7 +376,7 @@ void GameObject::updatePosition()
 			float rotationAngle = group->rotateTotalMovement;
 			
 			sf::Transform transform;
-			transform.rotate(rotationAngle, rotationPoint);
+			transform.rotate(sf::degrees(rotationAngle), rotationPoint);
 
 			newPosition += group->rotateAround->getPosition() - group->rotateAround->startPosition;
 			newPosition = transform.transformPoint(newPosition);
@@ -384,7 +386,7 @@ void GameObject::updatePosition()
 	rotate += rotateOffset;
 
 	setPosition(newPosition + move);
-	setRotation(startRotation + rotate);
+	setRotation(sf::degrees(startRotation + rotate));
 
 	this->updateVerticesPosition();
 

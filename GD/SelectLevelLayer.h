@@ -15,7 +15,7 @@ private:
 public:
 	static std::shared_ptr<SelectLevelLayer> create();
 
-	bool init();
+	bool init() override;
 
 	void searchLevels(std::string searchQuery, int page);
 

@@ -2,6 +2,7 @@
 
 #include "SFML/Graphics.hpp"
 #include "Sprite.h"
+#include <cmath>
 #include "json.hpp"
 
 class GameObject : public Sprite

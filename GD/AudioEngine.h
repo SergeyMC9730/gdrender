@@ -5,6 +5,8 @@
 
 #include <iostream>
 
+#include <memory>
+
 class AudioEngine {
 public:
     

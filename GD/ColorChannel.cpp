@@ -18,25 +18,25 @@ void ColorChannel::setColor(sf::Color color, bool pulse)
 		nonPulsedColor = color;
 }
 
-void ColorChannel::setR(sf::Uint8 r, bool pulse)
+void ColorChannel::setR(uint8_t r, bool pulse)
 {
 	this->color.r = r;
 	if (!pulse)
 		nonPulsedColor = color;
 }
-void ColorChannel::setG(sf::Uint8 g, bool pulse)
+void ColorChannel::setG(uint8_t g, bool pulse)
 {
 	this->color.g = g;
 	if (!pulse)
 		nonPulsedColor = color;
 }
-void ColorChannel::setB(sf::Uint8 b, bool pulse)
+void ColorChannel::setB(uint8_t b, bool pulse)
 {
 	this->color.b = b;
 	if (!pulse)
 		nonPulsedColor = color;
 }
-void ColorChannel::setA(sf::Uint8 a, bool pulse)
+void ColorChannel::setA(uint8_t a, bool pulse)
 {
 	this->color.a = a;
 	if (!pulse)

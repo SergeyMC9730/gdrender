@@ -40,9 +40,9 @@ void PulseAction::applyToSpriteIn(Sprite* spr, float fadetime)
 	if (spr->channelType == 1 && detailOnly || spr->channelType == 2 && mainOnly || spr->channelType == 0)
 		return;
 	auto channelcolor = spr->channel->getColor();
-	auto r1 = static_cast<sf::Uint8>(to.r - (float)(to.r - channelcolor.r) * (1 - fadetime));
-	auto g1 = static_cast<sf::Uint8>(to.g - (float)(to.g - channelcolor.g) * (1 - fadetime));
-	auto b1 = static_cast<sf::Uint8>(to.b - (float)(to.b - channelcolor.b) * (1 - fadetime));
+	auto r1 = static_cast<uint8_t>(to.r - (float)(to.r - channelcolor.r) * (1 - fadetime));
+	auto g1 = static_cast<uint8_t>(to.g - (float)(to.g - channelcolor.g) * (1 - fadetime));
+	auto b1 = static_cast<uint8_t>(to.b - (float)(to.b - channelcolor.b) * (1 - fadetime));
 	spr->setColor({ r1, g1, b1 });
 }
 
@@ -51,9 +51,9 @@ void PulseAction::applyToSpriteOut(Sprite* spr, float fadetime)
 	if (spr->channelType == 1 && detailOnly || spr->channelType == 2 && mainOnly || spr->channelType == 0)
 		return;
 	auto channelcolor = spr->channel->getColor();
-	auto r1 = static_cast<sf::Uint8>(to.r - (float)(to.r - channelcolor.r) * (fadetime));
-	auto g1 = static_cast<sf::Uint8>(to.g - (float)(to.g - channelcolor.g) * (fadetime));
-	auto b1 = static_cast<sf::Uint8>(to.b - (float)(to.b - channelcolor.b) * (fadetime));
+	auto r1 = static_cast<uint8_t>(to.r - (float)(to.r - channelcolor.r) * (fadetime));
+	auto g1 = static_cast<uint8_t>(to.g - (float)(to.g - channelcolor.g) * (fadetime));
+	auto b1 = static_cast<uint8_t>(to.b - (float)(to.b - channelcolor.b) * (fadetime));
 	spr->setColor({ r1, g1, b1 });
 }
 
@@ -67,9 +67,9 @@ void PulseAction::update(float time)
 			if (fadein == 0)
 				fadetime = 1.f;
 			auto channel = GameLayer::instance->colorChannels[target];
-			sf::Uint8 r = static_cast<sf::Uint8>(to.r - deltar * (1 - fadetime));
-			sf::Uint8 g = static_cast<sf::Uint8>(to.g - deltag * (1 - fadetime));
-			sf::Uint8 b = static_cast<sf::Uint8>(to.b - deltab * (1 - fadetime));
+			uint8_t r = static_cast<uint8_t>(to.r - deltar * (1 - fadetime));
+			uint8_t g = static_cast<uint8_t>(to.g - deltag * (1 - fadetime));
+			uint8_t b = static_cast<uint8_t>(to.b - deltab * (1 - fadetime));
 			channel->setColor({ r, g, b, channel->getColor().a }, true);
 			channel->setDirtyRecusively();
 		}
@@ -80,9 +80,9 @@ void PulseAction::update(float time)
 				fadetime = 1.f;
 
 			auto channel = GameLayer::instance->colorChannels[target];
-			sf::Uint8 r = static_cast<sf::Uint8>(original.r - deltar2 * (1 - fadetime));
-			sf::Uint8 g = static_cast<sf::Uint8>(original.g - deltag2 * (1 - fadetime));
-			sf::Uint8 b = static_cast<sf::Uint8>(original.b - deltab2 * (1 - fadetime));
+			uint8_t r = static_cast<uint8_t>(original.r - deltar2 * (1 - fadetime));
+			uint8_t g = static_cast<uint8_t>(original.g - deltag2 * (1 - fadetime));
+			uint8_t b = static_cast<uint8_t>(original.b - deltab2 * (1 - fadetime));
 			channel->setColor({ r, g, b, channel->getColor().a}, true);
 			channel->setDirtyRecusively();
 		}

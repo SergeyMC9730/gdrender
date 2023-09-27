@@ -4,16 +4,18 @@
 
 std::map<std::string, std::shared_ptr<sf::Texture>> Batcher::images;
 
-void Batcher::draw(sf::RenderTarget& target, sf::RenderStates states) const
+void Batcher::draw(sf::RenderTarget& target, const sf::RenderStates& states) const
 {
-    states.transform.scale(Application::zoomModifier, Application::zoomModifier);
-    states.transform *= getTransform();
+    sf::RenderStates st = states;
 
-    states.texture = texture;
+    st.transform.scale({Application::zoomModifier, Application::zoomModifier});
+    st.transform *= getTransform();
 
-    states.blendMode = this->blendMode;
+    st.texture = texture;
 
-    target.draw(vertices.data(), vertices.size(), sf::Quads, states);
+    st.blendMode = this->blendMode;
+
+    target.draw(vertices.data(), vertices.size(), sf::PrimitiveType::Triangles, st);
 }
 
 void Batcher::addSprite(Sprite* sp)

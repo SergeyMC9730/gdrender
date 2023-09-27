@@ -1,6 +1,6 @@
 #include "Common.h"
 #include <sys/types.h>
-#include "zlib/zlib.h"
+#include <zlib.h>
 #include <charconv>
 
 #define BUFFER_INC_FACTOR (2)

@@ -81,13 +81,13 @@ void Sprite::setColorWithoutSend(sf::Color color)
     }
 }
 
-void Sprite::setOpacity(sf::Uint8 opacity)
+void Sprite::setOpacity(uint8_t opacity)
 {
     setOpacityWithoutSend(opacity);
     sendVertices();
 }
 
-void Sprite::setOpacityWithoutSend(sf::Uint8 opacity)
+void Sprite::setOpacityWithoutSend(uint8_t opacity)
 {
     this->opacity = opacity;
     for (int i = 0; i < 4; i++)

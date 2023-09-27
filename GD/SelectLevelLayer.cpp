@@ -1,6 +1,9 @@
 #include "SelectLevelLayer.h"
 #include "GameLayer.h"
+#include "defines.h"
+#if IMGUI
 #include "imgui.h"
+#endif
 #include "Application.h"
 
 #include <cpr/cpr.h>
@@ -27,7 +30,8 @@ bool SelectLevelLayer::init()
 }
 
 void SelectLevelLayer::draw()
-{
+{	
+	#if IMGUI
 	ImGui::SetNextWindowPos(ImVec2(0, 0));
 	ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
 
@@ -113,6 +117,7 @@ void SelectLevelLayer::draw()
 	ImGui::PopStyleVar();
 
 	ImGui::End();
+	#endif
 }
 
 void SelectLevelLayer::searchLevels(std::string searchQuery, int page)

@@ -29,10 +29,10 @@ bool ColorAction::init(float duration, int colorChannel, sf::Color from, sf::Col
 void ColorAction::update(float time)
 {
 	auto channel = GameLayer::instance->colorChannels[colorChannel];
-	sf::Uint8 r = static_cast<sf::Uint8>(to.r - deltar * (1 - time));
-	sf::Uint8 g = static_cast<sf::Uint8>(to.g - deltag * (1 - time));
-	sf::Uint8 b = static_cast<sf::Uint8>(to.b - deltab * (1 - time));
-	sf::Uint8 a = static_cast<sf::Uint8>(to.a - deltaa * (1 - time));
+	uint8_t r = static_cast<uint8_t>(to.r - deltar * (1 - time));
+	uint8_t g = static_cast<uint8_t>(to.g - deltag * (1 - time));
+	uint8_t b = static_cast<uint8_t>(to.b - deltab * (1 - time));
+	uint8_t a = static_cast<uint8_t>(to.a - deltaa * (1 - time));
 	channel->setColor({ r, g, b, a });
 	
 	channel->setDirtyRecusively();
